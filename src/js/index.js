@@ -2,22 +2,22 @@
 
 // import catImage from '../assets/images/cat.jpeg'
 import '../scss/styles.scss';
-import { playVideo, videoTiming, stopVideo, setTime } from './controls.js';
+import { playVideo, videoTiming, stopVideo, setTime, buttonPlayPause,setVolume, timingBar } from './controls.js';
 import { videoElement } from './consts.js';
-import { comment } from 'postcss';
-const currentTimeElement = document.getElementById('current-time');
+
 const playElement = document.getElementById('play');
 const stopElement = document.getElementById('stop');
-const setTimeUp = document.getElementById('time-up');
-const setTimeDown = document.getElementById('time-down');
 const setTimeElement = document.getElementById('set-time');
+const volumeElement = document.getElementById('volume');
+const timingBarElement = document.getElementById('timing-bar');
 
 playElement.addEventListener('click', ev => {
   playVideo(playElement);
+  buttonPlayPause(playElement);
 });
 
 videoElement.addEventListener('timeupdate', () => {
-  videoTiming();
+  videoTiming(timingBarElement);
 });
 
 stopElement.addEventListener('click', ev => {
@@ -27,3 +27,11 @@ stopElement.addEventListener('click', ev => {
 setTimeElement.addEventListener('click', ev => {
   setTime(ev.target);
 });
+
+volumeElement.addEventListener('change', ev => {
+  setVolume(ev.target.value);
+});
+
+timingBarElement.addEventListener('click', ev => {
+  timingBar(ev)
+})
