@@ -11,7 +11,26 @@
   </head>
   <body>
     <header class="header"></header>
-    <main class="main"></main>
+    <main class="main">
+      <div class="video-container">
+        <video id="video" class="video" src="assets/video.mp4"></video>
+        <div class="video__controls">
+          <div class="video__timing">
+            <p id="current-time" class="video__timing-item video__timing-item--current"></p>
+            <p id="total-time" class="video__timing-item video__timing-item--total"></p>
+          </div>
+          <div class="video__status">
+            <button id="play">Play</button>
+            <button id="stop">Stop</button>
+          </div>
+          <div id="set-time" class="video__set-time">
+            <button class="time-up" id="time-up">+15</button>
+
+            <button class="time-down" id="time-down">-15</button>
+          </div>
+        </div>
+      </div>
+    </main>
     <footer class="footer"></footer>
     <script type="module" src="./js/index.js"></script>
   </body>
