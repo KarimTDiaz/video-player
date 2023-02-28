@@ -2,18 +2,14 @@
 @use '../mixins/flexbox.scss' as *;
 
 .video-container {
-  display: grid;
-  place-items: center;
   position: relative;
-  min-height: 100vh;
 }
 .video {
   width: 800px;
   &__info {
     width: 800px;
     position: absolute;
-    bottom: 230px;
-    
+    bottom: 0;
   }
   &__controls {
     @include flexbox(flex, row, nowrap, space-between, center);
@@ -52,23 +48,25 @@
       }
     }
   }
+  &-speed{
+    @include flexbox(flex, row, nowrap, space-between, center);
+    gap: 20px;
+    &__item{
+      width: 25px;
+    }
+
+  }
   &__status {
     @include flexbox(flex, row, nowrap, space-between, center);
     gap: 10px;
     &-item {
       width: 25px;
       height: 25px;
-      background-size: cover;
-      &--play {
-        background-image: url(../assets/play.png);
-      }
-      &--pause {
-        background-image: url(../assets/pause.png);
-      }
-      &--stop {
-        background-image: url(../assets/stop.png);
-      }
     }
+  }
+  &-settings{
+    width: 25px;
+      height: 25px;
   }
 }
 
@@ -78,37 +76,28 @@
   &__icon {
     width: 20px;
     height: 20px;
-    background-image: url(../assets/volume-low.svg);
-    background-size: cover;
-    &:hover + .volume__range{
-        display: block;
-    }
-    &--mute{
-        background-image: url(../assets/volume-mute.svg);
-    }
-    &--high{
-        background-image: url(../assets/volume-high.svg);
-    }
-    &--low{
-        background-image: url(../assets/volume-low.svg);
-    }
-    
   }
   &__range {
     height: 50px;
     width: 100px;
-    /* display: none; */
-    &:hover{
-        display: block;
-    }
+    display: none; 
+    accent-color: white;
   }
+  &:hover .volume__range{
+    display: block;
+}
+ 
+}
 
-  &::-webkit-slider-thumb {
-    -webkit-appearance: none;
-    appearance: none;
-    cursor: pointer;
-  }
-  &::-moz-range-thumb {
+.velocity-list{
+  position: absolute;
+  bottom: 110%;
+  right: 0.3rem;
+  padding: 1rem 4rem 1rem 2rem;
+  background-color: rgb(0 0 0 / .5);
+  border-radius: 9px;
+  &__item{
+    margin-bottom: 0.8rem;
     cursor: pointer;
   }
 }

@@ -11,17 +11,17 @@ import {
   setVolume,
   setTimingBar,
   videoFixedTiming,
-  changeTimingBar
+  changeTimingBar,
+  setIconVolume,
+  getLocalCurrentTime
 } from './controls.js';
 import { videoElement } from './consts.js';
 
-const playElement = document.getElementById('play');
+const playElement = document.getElementById('play-icon');
 const stopElement = document.getElementById('stop');
 const setTimeElement = document.getElementById('set-time');
-const volumeElement = document.getElementById('volume');
+const volumeRangeElement = document.getElementById('volume');
 const timingBarElement = document.getElementById('timing-bar');
-
-videoFixedTiming();
 
 playElement.addEventListener('click', ev => {
   playVideo(playElement);
@@ -33,6 +33,10 @@ videoElement.addEventListener('timeupdate', () => {
   changeTimingBar();
 });
 
+videoElement.addEventListener('loadedmetadata', ev => {
+  videoFixedTiming();
+});
+
 stopElement.addEventListener('click', ev => {
   stopVideo(playElement);
 });
@@ -41,10 +45,22 @@ setTimeElement.addEventListener('click', ev => {
   setTime(ev.target);
 });
 
-volumeElement.addEventListener('change', ev => {
+volumeRangeElement.addEventListener('change', ev => {
   setVolume(ev.target.value);
+  setIconVolume(ev.target.value);
 });
 
 timingBarElement.addEventListener('click', ev => {
   setTimingBar(ev);
+});
+
+window.addEventListener('keyup', ev => {
+  if (ev.code === 'Space') {
+    playVideo();
+    buttonPlayPause(playElement);
+  }
+});
+
+window.addEventListener('load', e => {
+  getLocalCurrentTime();
 });

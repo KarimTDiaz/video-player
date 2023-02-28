@@ -16,6 +16,7 @@
         <video
           id="video"
           class="video"
+          autoplay muted
           src="https://vaibhav1663.github.io/Youtube-Ambient-Mode/demo-video.mp4"
         ></video>
         <div class="video__info">
@@ -23,12 +24,18 @@
           <div class="video__controls">
             <div class="video__controls--left">
             <div  class="video__status">
-              <div id="play" class=" video__status-item video__status-item--play"></div>
-              <div id="stop" class="video__status-item video__status-item--stop"></div>
+              <div class=" video__status-item video__status-item--play">
+                <img id="play-icon" src="assets/pause.png" alt="icono play">
+              </div>
+              <div id="stop" class="video__status-item video__status-item--stop">
+                <img id="stop-icon" src="assets/stop.png" alt="icono play">
+              </div>
             </div>
             <div class="volume">
-              <div id="volume-icon" class="volume__icon"></div>
-              <input id="volume" class="volume__range" type="range" min="0" max="10" value="5" />
+              <div class="volume__icon">
+                <img id="volume-icon" src="assets/volume-low.svg" alt="Icono de volumen">
+              </div>
+              <input id="volume" class="volume__range" type="range" min="0" max="9" value="5" />
             </div>
           <div class="video__timing">
             <p
@@ -42,10 +49,23 @@
             ></p>
           </div>
         </div>
-          <div id="set-time" class="video__set-time">
-            <button class="time-up" id="time-up">+15</button>
-            <button class="time-down" id="time-down">-15</button>
-          </div>
+        <div id="set-time" class="video-speed"> 
+          <img class="video-speed__item video-speed__item--down" id="time-down" src="assets/backward.svg" alt="icono-backward">
+          <img class="video-speed__item video-speed__item--up" id="time-up" src="assets/forward.svg" alt="icono-forward">
+        </div>
+        <div class="video-settings">
+          <img src="assets/settings.svg" alt="icono settings">
+        </div>
+        <ul class="velocity-list">
+          <li class="velocity-list__item">0.25</li>
+          <li class="velocity-list__item">0.5</li>
+          <li class="velocity-list__item">0.75</li>
+          <li class="velocity-list__item">Normal</li>
+          <li class="velocity-list__item">1.25</li>
+          <li class="velocity-list__item">1.5</li>
+          <li class="velocity-list__item">1.75</li>
+        </ul>
+        
         </div>
       </div>
       </div>

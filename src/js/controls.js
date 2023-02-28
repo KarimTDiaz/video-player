@@ -1,34 +1,49 @@
 import { videoElement } from './consts.js';
+import iconMute from '../assets/volume-mute.svg';
+import iconVolumeLow from '../assets/volume-low.svg';
+import iconVolumeHigh from '../assets/volume-high.svg';
+import iconPlay from '../assets/play.png';
+import iconPause from '../assets/pause.png';
 
 const currentTimeElement = document.getElementById('current-time');
 const fixedTimeElement = document.getElementById('total-time');
-const stopElement = document.getElementById('stop');
 const iconVolumeElement = document.getElementById('volume-icon');
+const LS = localStorage;
 
 const rootStyles = document.documentElement.style;
 
-const playVideo = playBtn => {
+const getLocalCurrentTime = () => {
+  videoElement.currentTime = LS.getItem('localCurrentTime');
+};
+
+const playVideo = () => {
   if (videoElement.paused) {
     videoElement.play();
   } else {
     videoElement.pause();
   }
+  console.dir(videoElement);
 };
 const buttonPlayPause = playBtn => {
-  playBtn.classList.toggle('video__status-item--pause');
+  if (videoElement.paused) {
+    playBtn.src = iconPlay;
+  } else {
+    playBtn.src = iconPause;
+  }
 };
 
 const stopVideo = playBtn => {
   videoElement.pause();
   videoElement.currentTime = 0;
-  playBtn.classList.remove('video__status-item--pause');
+  playBtn.src = iconPlay;
 };
 
-const videoCurrentTiming = timingBar => {
+const videoCurrentTiming = () => {
   let date = new Date(null);
   date.setSeconds(videoElement.currentTime);
   let result = date.toISOString().slice(14, 19);
   currentTimeElement.textContent = result;
+  LS.setItem('localCurrentTime', videoElement.currentTime);
 };
 
 const videoFixedTiming = () => {
@@ -40,29 +55,27 @@ const videoFixedTiming = () => {
 };
 
 const setTime = ev => {
-  if (ev.classList.contains('time-up')) {
-    videoElement.currentTime += 15;
+  console.log(ev);
+  if (ev.classList.contains('video-speed__item--up')) {
+    videoElement.currentTime += 10;
   } else {
-    videoElement.currentTime -= 15;
+    videoElement.currentTime -= 10;
   }
 };
 
 const setVolume = value => {
-  if (value === 0) {
-    iconVolumeElement.classList.remove('volume__icon--low');
-    iconVolumeElement.classList.remove('volume__icon--high');
-    iconVolumeElement.classList.add('volume__icon--mute');
-  } else if (value > 0 && value <= 8) {
-    iconVolumeElement.classList.remove('volume__icon--mute');
-    iconVolumeElement.classList.remove('volume__icon--high');
-    iconVolumeElement.classList.add('volume__icon--low');
-  } else if (value > 8) {
-    iconVolumeElement.classList.remove('volume__icon--mute');
-    iconVolumeElement.classList.remove('volume__icon--low');
-    iconVolumeElement.classList.add('volume__icon--high');
-  }
-  let volume = value / 10;
+  let volume = value / 9;
   videoElement.volume = volume;
+};
+
+const setIconVolume = value => {
+  if (value === '0') {
+    iconVolumeElement.src = iconMute;
+  } else if (value > '0' && value <= '6') {
+    iconVolumeElement.src = iconVolumeLow;
+  } else {
+    iconVolumeElement.src = iconVolumeHigh;
+  }
 };
 
 const setTimingBar = pointerPosition => {
@@ -85,5 +98,7 @@ export {
   setVolume,
   setTimingBar,
   videoFixedTiming,
-  changeTimingBar
+  changeTimingBar,
+  setIconVolume,
+  getLocalCurrentTime
 };
