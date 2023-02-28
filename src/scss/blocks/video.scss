@@ -40,7 +40,6 @@
           top: -4.8px;
           z-index: 10;
           background-color: red;
-          border: 1px solid white;
           border-radius: 50%;
           left: calc(var(--timing-bar) - 1%);
           transform: translateX(var(--timing-ball));
@@ -89,9 +88,10 @@
  
 }
 
-.velocity-list{
+.speed-list{
   position: absolute;
   bottom: 110%;
+  display: none;
   right: 0.3rem;
   padding: 1rem 4rem 1rem 2rem;
   background-color: rgb(0 0 0 / .5);
@@ -99,5 +99,8 @@
   &__item{
     margin-bottom: 0.8rem;
     cursor: pointer;
+  }
+  &--show{
+    display: block;
   }
 }

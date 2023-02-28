@@ -13,15 +13,22 @@ import {
   videoFixedTiming,
   changeTimingBar,
   setIconVolume,
-  getLocalCurrentTime
+  getLocalCurrentTime,
+  setVideoSpeed,
+  videoSpeedShow,
+  speedListElement,
+  iconVolumeElement,
+  setMuteVolume,
+  volumeRangeElement
 } from './controls.js';
 import { videoElement } from './consts.js';
 
 const playElement = document.getElementById('play-icon');
 const stopElement = document.getElementById('stop');
 const setTimeElement = document.getElementById('set-time');
-const volumeRangeElement = document.getElementById('volume');
+
 const timingBarElement = document.getElementById('timing-bar');
+const settingsIconElement = document.getElementById('video-settings');
 
 playElement.addEventListener('click', ev => {
   playVideo(playElement);
@@ -50,8 +57,21 @@ volumeRangeElement.addEventListener('change', ev => {
   setIconVolume(ev.target.value);
 });
 
+iconVolumeElement.addEventListener('click', ev => {
+  setMuteVolume();
+});
+
 timingBarElement.addEventListener('click', ev => {
   setTimingBar(ev);
+});
+
+speedListElement.addEventListener('click', ev => {
+  if (!ev.target.classList.contains('speed-list__item')) return;
+  setVideoSpeed(ev.target.textContent);
+});
+
+settingsIconElement.addEventListener('click', ev => {
+  videoSpeedShow();
 });
 
 window.addEventListener('keyup', ev => {

@@ -8,6 +8,8 @@ import iconPause from '../assets/pause.png';
 const currentTimeElement = document.getElementById('current-time');
 const fixedTimeElement = document.getElementById('total-time');
 const iconVolumeElement = document.getElementById('volume-icon');
+const speedListElement = document.getElementById('speed-list');
+const volumeRangeElement = document.getElementById('volume');
 const LS = localStorage;
 
 const rootStyles = document.documentElement.style;
@@ -22,7 +24,6 @@ const playVideo = () => {
   } else {
     videoElement.pause();
   }
-  console.dir(videoElement);
 };
 const buttonPlayPause = playBtn => {
   if (videoElement.paused) {
@@ -78,6 +79,18 @@ const setIconVolume = value => {
   }
 };
 
+const setMuteVolume = () => {
+  if (videoElement.muted) {
+    iconVolumeElement.src = iconVolumeLow;
+    videoElement.muted = false;
+    volumeRangeElement.value = '5';
+  } else {
+    iconVolumeElement.src = iconMute;
+    videoElement.muted = true;
+    volumeRangeElement.value = '0';
+  }
+};
+
 const setTimingBar = pointerPosition => {
   videoElement.currentTime =
     (videoElement.duration * pointerPosition.offsetX) /
@@ -87,6 +100,18 @@ const setTimingBar = pointerPosition => {
 const changeTimingBar = () => {
   let barTime = (videoElement.currentTime * 100) / videoElement.duration + '%';
   rootStyles.setProperty('--timing-bar', barTime);
+};
+
+const setVideoSpeed = speed => {
+  if (speed === 'Normal') {
+    videoElement.playbackRate = 1;
+  } else {
+    videoElement.playbackRate = speed;
+  }
+};
+
+const videoSpeedShow = () => {
+  speedListElement.classList.toggle('speed-list--show');
 };
 
 export {
@@ -100,5 +125,11 @@ export {
   videoFixedTiming,
   changeTimingBar,
   setIconVolume,
-  getLocalCurrentTime
+  getLocalCurrentTime,
+  setVideoSpeed,
+  videoSpeedShow,
+  speedListElement,
+  iconVolumeElement,
+  setMuteVolume,
+  volumeRangeElement
 };
