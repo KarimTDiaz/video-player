@@ -1,36 +1,114 @@
-@use '../mixins/pseudo.scss' as*;
+@use '../mixins/pseudo.scss' as *;
+@use '../mixins/flexbox.scss' as *;
 
-.video-container{
-display: grid;
-place-items: center;
-min-height: 100vh;
+.video-container {
+  display: grid;
+  place-items: center;
+  position: relative;
+  min-height: 100vh;
 }
-.video{
-    width: 50%;
-    &__timing{
-
-        &--bar{
-            position: relative;
-            width: 500px;
-            height: 10px;
-            background-color: black;
-           
-            &::after{
-                @include pseudo(var(--timing-bar), 10px) {
-                    background-color: red;
-                }
-            }
-            &::before{
-                @include pseudo(20px, 20px) {
-                    top:-4.7px;
-                    z-index: 10;
-                    background-color: black;
-                    border:1px solid white;
-                    border-radius: 50%;
-                    left: calc(var(--timing-bar) - 2%);
-                    transform: translateX(var(--timing-ball));
-                }
-            }
-        }
+.video {
+  width: 800px;
+  &__info {
+    width: 800px;
+    position: absolute;
+    bottom: 230px;
+    
+  }
+  &__controls {
+    @include flexbox(flex, row, nowrap, space-between, center);
+    padding: 0 1rem;
+    &--left{
+        @include flexbox(flex, row, nowrap, space-between, center);
+        gap: 20px
     }
+  }
+  &__timing {
+    @include flexbox(flex, row, nowrap, start, center);
+    gap: 8px;
+    &--bar {
+      position: relative;
+      width: 790px;
+      height: 5px;
+      margin-left: auto;
+      margin-right: auto;
+      background-color: grey;
+
+      &::after {
+        @include pseudo(var(--timing-bar), 5px) {
+          background-color: red;
+        }
+      }
+      &::before {
+        @include pseudo(15px, 15px) {
+          top: -4.8px;
+          z-index: 10;
+          background-color: red;
+          border: 1px solid white;
+          border-radius: 50%;
+          left: calc(var(--timing-bar) - 1%);
+          transform: translateX(var(--timing-ball));
+        }
+      }
+    }
+  }
+  &__status {
+    @include flexbox(flex, row, nowrap, space-between, center);
+    gap: 10px;
+    &-item {
+      width: 25px;
+      height: 25px;
+      background-size: cover;
+      &--play {
+        background-image: url(../assets/play.png);
+      }
+      &--pause {
+        background-image: url(../assets/pause.png);
+      }
+      &--stop {
+        background-image: url(../assets/stop.png);
+      }
+    }
+  }
+}
+
+.volume {
+  @include flexbox(flex, row, nowrap, space-between, center);
+  gap: 5px;
+  &__icon {
+    width: 20px;
+    height: 20px;
+    background-image: url(../assets/volume-low.svg);
+    background-size: cover;
+    &:hover + .volume__range{
+        display: block;
+    }
+    &--mute{
+        background-image: url(../assets/volume-mute.svg);
+    }
+    &--high{
+        background-image: url(../assets/volume-high.svg);
+    }
+    &--low{
+        background-image: url(../assets/volume-low.svg);
+    }
+    
+  }
+  &__range {
+    height: 50px;
+    width: 100px;
+    /* display: none; */
+    &:hover{
+        display: block;
+    }
+  }
+
+  &::-webkit-slider-thumb {
+    -webkit-appearance: none;
+    appearance: none;
+    cursor: pointer;
+  }
+  &::-moz-range-thumb {
+    cursor: pointer;
+  }
 }

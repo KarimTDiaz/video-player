@@ -1,9 +1,9 @@
 import { videoElement } from './consts.js';
 
 const currentTimeElement = document.getElementById('current-time');
-const totalTimeElement = document.getElementById('total-time');
+const fixedTimeElement = document.getElementById('total-time');
 const stopElement = document.getElementById('stop');
-
+const iconVolumeElement = document.getElementById('volume-icon');
 
 const rootStyles = document.documentElement.style;
 
@@ -14,37 +14,29 @@ const playVideo = playBtn => {
     videoElement.pause();
   }
 };
+const buttonPlayPause = playBtn => {
+  playBtn.classList.toggle('video__status-item--pause');
+};
 
 const stopVideo = playBtn => {
   videoElement.pause();
   videoElement.currentTime = 0;
-  if (videoElement.paused) {
-    playBtn.textContent = 'PLAY';
-  } else {
-    playBtn.textContent = 'PAUSE';
-  }
+  playBtn.classList.remove('video__status-item--pause');
 };
 
-const buttonPlayPause = (playBtn) => {
-  if (videoElement.paused) {
-    playBtn.textContent = 'PLAY';
-  } else {
-    playBtn.textContent = 'PAUSE';
-  }
-}
-
-const videoTiming = (timingBar) => {
-  let barTime = ((videoElement.currentTime * 100) / videoElement.duration) + '%';
+const videoCurrentTiming = timingBar => {
   let date = new Date(null);
   date.setSeconds(videoElement.currentTime);
-  let result = date.toISOString().slice(11,19);
+  let result = date.toISOString().slice(14, 19);
+  currentTimeElement.textContent = result;
+};
+
+const videoFixedTiming = () => {
   const dateTotal = new Date(null);
   dateTotal.setSeconds(videoElement.duration);
-  const resultTotal = dateTotal.toISOString().slice(11,19);
-  currentTimeElement.textContent = result;
-  totalTimeElement.textContent = resultTotal;
-  rootStyles.setProperty('--timing-bar', barTime);
-  
+  const resultTotal = dateTotal.toISOString().slice(14, 19);
+  currentTimeElement.textContent = '00:00';
+  fixedTimeElement.textContent = resultTotal;
 };
 
 const setTime = ev => {
@@ -56,15 +48,42 @@ const setTime = ev => {
 };
 
 const setVolume = value => {
-let volume = value/10;
-videoElement.volume = volume
+  if (value === 0) {
+    iconVolumeElement.classList.remove('volume__icon--low');
+    iconVolumeElement.classList.remove('volume__icon--high');
+    iconVolumeElement.classList.add('volume__icon--mute');
+  } else if (value > 0 && value <= 8) {
+    iconVolumeElement.classList.remove('volume__icon--mute');
+    iconVolumeElement.classList.remove('volume__icon--high');
+    iconVolumeElement.classList.add('volume__icon--low');
+  } else if (value > 8) {
+    iconVolumeElement.classList.remove('volume__icon--mute');
+    iconVolumeElement.classList.remove('volume__icon--low');
+    iconVolumeElement.classList.add('volume__icon--high');
+  }
+  let volume = value / 10;
+  videoElement.volume = volume;
 };
 
-const timingBar = (pointerPosition) => {
-   videoElement.currentTime = (videoElement.duration * pointerPosition.offsetX) / pointerPosition.target.clientWidth
+const setTimingBar = pointerPosition => {
+  videoElement.currentTime =
+    (videoElement.duration * pointerPosition.offsetX) /
+    pointerPosition.target.clientWidth;
 };
 
+const changeTimingBar = () => {
+  let barTime = (videoElement.currentTime * 100) / videoElement.duration + '%';
+  rootStyles.setProperty('--timing-bar', barTime);
+};
 
-
-
-export { playVideo, videoTiming, stopVideo, setTime, buttonPlayPause, setVolume, timingBar };
+export {
+  playVideo,
+  videoCurrentTiming,
+  stopVideo,
+  setTime,
+  buttonPlayPause,
+  setVolume,
+  setTimingBar,
+  videoFixedTiming,
+  changeTimingBar
+};

@@ -2,7 +2,17 @@
 
 // import catImage from '../assets/images/cat.jpeg'
 import '../scss/styles.scss';
-import { playVideo, videoTiming, stopVideo, setTime, buttonPlayPause,setVolume, timingBar } from './controls.js';
+import {
+  playVideo,
+  videoCurrentTiming,
+  stopVideo,
+  setTime,
+  buttonPlayPause,
+  setVolume,
+  setTimingBar,
+  videoFixedTiming,
+  changeTimingBar
+} from './controls.js';
 import { videoElement } from './consts.js';
 
 const playElement = document.getElementById('play');
@@ -11,13 +21,16 @@ const setTimeElement = document.getElementById('set-time');
 const volumeElement = document.getElementById('volume');
 const timingBarElement = document.getElementById('timing-bar');
 
+videoFixedTiming();
+
 playElement.addEventListener('click', ev => {
   playVideo(playElement);
   buttonPlayPause(playElement);
 });
 
 videoElement.addEventListener('timeupdate', () => {
-  videoTiming(timingBarElement);
+  videoCurrentTiming(timingBarElement);
+  changeTimingBar();
 });
 
 stopElement.addEventListener('click', ev => {
@@ -33,5 +46,5 @@ volumeElement.addEventListener('change', ev => {
 });
 
 timingBarElement.addEventListener('click', ev => {
-  timingBar(ev)
-})
+  setTimingBar(ev);
+});
